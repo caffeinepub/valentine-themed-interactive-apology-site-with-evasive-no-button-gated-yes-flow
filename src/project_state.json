@@ -1,0 +1,142 @@
+{
+  "schemaVersion": "1.0.0",
+  "projectStateVersion": 3,
+  "summary": "Build a polished, responsive Valentine-themed interactive apology website from Akash to Fili with playful-to-magical emotional flow, evasive “No” button logic, timed popups, gated “Yes” reveal, music playback on interaction, photo modal, apology message, and celebratory floating decorations.",
+  "architectural_notes": [
+    "Use viewport-bounded random positioning for the “No” button: maxX = window.innerWidth - buttonWidth - margin; maxY = window.innerHeight - buttonHeight - margin; clamp positions so the button never renders outside the viewport.",
+    "Trigger audio playback only from the “Yes” click handler (user gesture) to comply with autoplay policies; catch and ignore play() promise rejection.",
+    "Ensure decorative floating elements are spawned gradually, animated via CSS/RAF, and removed from DOM after animation to avoid memory leaks/perf lag."
+  ],
+  "known_issues": [],
+  "isFixRequest": false,
+  "existing_features": [
+    {
+      "id": "feature-create-a-single-page-valentine-themed-landing-experience-with-a-soft-dreamy-disney-fairytale-inspired-but-clean-elegant-visual-style-using-blush-pink-soft-red-peach-gradients-warm-glow-highlights-subtle-white-accents-rounded-elegant-typography-and-an-animated-background-soft-animated-gradient-and-or-subtle-floating-light-particles-ensure-the-styling-is-consistent-across-all-screens-and-responsive-without-harsh-colors-dark-theme-or-heavy-fonts",
+      "title": "Create a single-page Valentine-themed landing experience with a soft, dreamy, Disney-fairytale-inspired (but clean/elegant) visual style using blush pink/soft red/peach gradients, warm glow highlights, subtle white accents, rounded elegant typography, and an animated background (soft animated gradient and/or subtle floating light particles). Ensure the styling is consistent across all screens and responsive without harsh colors, dark theme, or heavy fonts.",
+      "reqIds": [
+        "REQ-1"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-implement-the-landing-screen-with-the-centered-heading-text-exactly-fili-will-you-be-my-valentine-and-two-rounded-romantic-buttons-labeled-exactly-yes-and-no-add-soft-glow-smooth-hover-animation-rounded-corners-and-slight-scale-effect-on-hover-for-both-buttons",
+      "title": "Implement the landing screen with the centered heading text exactly: “Fili, will you be my Valentine? 💖” and two rounded romantic buttons labeled exactly: “Yes 💕” and “No 😢”. Add soft glow, smooth hover animation, rounded corners, and slight scale effect on hover for both buttons.",
+      "reqIds": [
+        "REQ-2"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-implement-strict-no-button-behavior-it-starts-visible-and-on-every-click-moves-to-a-random-position-while-always-remaining-fully-inside-the-viewport-and-always-clickable-never-partially-off-screen-never-unreachable-across-desktop-mobile-tablet-compute-the-random-position-using-the-provided-formula-with-button-dimensions-and-a-configurable-margin-maxx-window-innerwidth-buttonwidth-margin-maxy-window-innerheight-buttonheight-margin-random-x-y-in-0-maxx-and-0-maxy-update-positioning-correctly-on-viewport-resize-orientation-changes-to-prevent-overflow-bugs",
+      "title": "Implement strict “No 😢” button behavior: it starts visible and on every click moves to a random position while ALWAYS remaining fully inside the viewport and ALWAYS clickable (never partially off-screen, never unreachable) across desktop/mobile/tablet. Compute the random position using the provided formula with button dimensions and a configurable margin: maxX = window.innerWidth - buttonWidth - margin; maxY = window.innerHeight - buttonHeight - margin; random X/Y in [0,maxX] and [0,maxY]. Update positioning correctly on viewport resize/orientation changes to prevent overflow bugs.",
+      "reqIds": [
+        "REQ-3"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-show-exactly-7-sequential-popup-messages-triggered-by-no-button-clicks-each-popup-must-appear-top-center-with-rounded-corners-soft-pink-background-soft-shadow-and-auto-dismiss-after-1-5-seconds-popups-must-not-stack-permanently-use-this-exact-sequence-one-per-click-1-are-you-sure-2-really-sure-3-please-don-t-say-no-4-i-ll-bring-chocolates-5-i-ll-send-teddy-hugs-6-cats-and-butterflies-for-you-7-okay-fine-last-chance",
+      "title": "Show exactly 7 sequential popup messages triggered by No button clicks. Each popup must appear top-center, with rounded corners, soft pink background, soft shadow, and auto-dismiss after 1.5 seconds. Popups must not stack permanently. Use this exact sequence (one per click): 1) “Are you sure? 🥺” 2) “Really sure? 💔” 3) “Please don’t say no 😢” 4) “I’ll bring chocolates 🍫” 5) “I’ll send teddy hugs 🧸” 6) “Cats and butterflies for you 🐱🦋” 7) “Okay fine… last chance 💖”.",
+      "reqIds": [
+        "REQ-4"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-after-the-7th-no-click-stop-moving-the-no-button-implement-yes-button-gating-it-must-be-initially-hidden-or-visually-small-and-only-become-fully-visible-after-the-7th-no-click-with-a-smooth-fade-in-animation-and-slight-glow-effect",
+      "title": "After the 7th No click: stop moving the No button. Implement “Yes 💕” button gating: it must be initially hidden or visually small, and only become fully visible after the 7th No click with a smooth fade-in animation and slight glow effect.",
+      "reqIds": [
+        "REQ-5"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-on-yes-click-start-playing-a-local-audio-file-named-forever-mp3-audio-must-not-autoplay-on-page-load-and-must-only-start-after-the-yes-click-user-gesture-set-volume-to-a-moderate-level-not-maximum-if-play-fails-due-to-autoplay-policy-or-other-errors-handle-the-error-silently-no-user-visible-error-state-no-console-noise-music-should-continue-playing-in-the-background-after-starting",
+      "title": "On “Yes 💕” click, start playing a local audio file named forever.mp3. Audio must NOT autoplay on page load and must ONLY start after the Yes click user gesture. Set volume to a moderate level (not maximum). If play() fails due to autoplay policy or other errors, handle the error silently (no user-visible error state; no console noise). Music should continue playing in the background after starting.",
+      "reqIds": [
+        "REQ-6"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-on-yes-click-automatically-open-a-centered-romantic-photo-modal-using-the-uploaded-image-file-img-20221213-093702-jpg-the-modal-must-have-rounded-corners-soft-shadow-a-slight-scale-in-animation-a-soft-blurred-backdrop-smooth-transitions-and-be-mobile-safe-the-image-must-scale-proportionally-no-stretching-never-overflow-the-viewport-and-remain-fully-viewable-on-small-screens",
+      "title": "On “Yes 💕” click, automatically open a centered romantic photo modal using the uploaded image file IMG_20221213_093702.jpg. The modal must have rounded corners, soft shadow, a slight scale-in animation, a soft blurred backdrop, smooth transitions, and be mobile-safe. The image must scale proportionally (no stretching), never overflow the viewport, and remain fully viewable on small screens.",
+      "reqIds": [
+        "REQ-7"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-on-yes-click-display-the-following-apology-message-text-exactly-including-punctuation-and-emoji-styled-beautifully-with-soft-romantic-typography-centered-layout-high-readability-and-a-smooth-fade-in-fili-i-m-truly-sorry-sorry-for-being-rude-for-raising-my-voice-for-the-harsh-words-i-used-i-m-sorry-for-every-single-thing-that-hurt-you-i-m-honestly-ashamed-of-my-behavior-and-you-didn-t-deserve-any-of-it-but-please-believe-me-when-i-say-this-the-time-i-spent-with-you-has-been-one-of-the-most-beautiful-chapters-of-my-life-every-moment-with-you-meant-more-to-me-than-i-could-ever-express-you-are-without-a-doubt-one-of-the-most-beautiful-girls-in-this-world-not-just-by-looks-but-by-heart-by-soul-by-the-way-you-make-everything-brighter-please-don-t-ever-blame-yourself-none-of-this-was-your-fault-if-there-was-a-mistake-it-was-mine-with-love-akash",
+      "title": "On “Yes 💕” click, display the following apology message text exactly (including punctuation and emoji), styled beautifully with soft romantic typography, centered layout, high readability, and a smooth fade-in:\n\nFili…\n\nI’m truly sorry.\nSorry for being rude, for raising my voice, for the harsh words I used.\nI’m sorry for every single thing that hurt you.\nI’m honestly ashamed of my behavior, and you didn’t deserve any of it.\n\nBut please believe me when I say this —\nthe time I spent with you has been one of the most beautiful chapters of my life.\nEvery moment with you meant more to me than I could ever express.\n\nYou are, without a doubt, one of the most beautiful girls in this world —\nnot just by looks, but by heart, by soul,\nby the way you make everything brighter. ✨\n\nPlease don’t ever blame yourself.\nNone of this was your fault.\nIf there was a mistake, it was mine.\n\nWith love,\nAkash 🤍",
+      "reqIds": [
+        "REQ-8"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-after-yes-click-trigger-decorative-celebration-effects-floating-hearts-butterflies-cats-chocolates-teddy-bears-sparkles-and-roses-decorations-must-spawn-gradually-not-all-at-once-float-upward-fade-out-smoothly-and-be-removed-from-the-dom-after-the-animation-to-avoid-memory-leaks-and-performance-degradation",
+      "title": "After “Yes 💕” click, trigger decorative celebration effects: floating 💖 hearts, 🦋 butterflies, 🐱 cats, 🍫 chocolates, 🧸 teddy bears, ✨ sparkles, and 🌹 roses. Decorations must spawn gradually (not all at once), float upward, fade out smoothly, and be removed from the DOM after the animation to avoid memory leaks and performance degradation.",
+      "reqIds": [
+        "REQ-9"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-ensure-production-ready-responsiveness-and-quality-no-unwanted-scrollbars-unless-absolutely-necessary-buttons-remain-visible-the-no-button-logic-remains-safe-within-viewport-constraints-proper-z-index-layering-for-popups-modal-decorations-and-no-console-errors-avoid-duplicate-event-listeners-infinite-loops-unused-variables-and-memory-leaks-include-clear-code-organization-and-commented-sections-for-major-ui-states-animations",
+      "title": "Ensure production-ready responsiveness and quality: no unwanted scrollbars (unless absolutely necessary), buttons remain visible, the No button logic remains safe within viewport constraints, proper z-index layering for popups/modal/decorations, and no console errors. Avoid duplicate event listeners, infinite loops, unused variables, and memory leaks. Include clear code organization and commented sections for major UI states/animations.",
+      "reqIds": [
+        "REQ-10"
+      ],
+      "version": 1
+    }
+  ],
+  "new_feature_requests": [
+    {
+      "id": "AR-1",
+      "summary": "Valentine-themed landing screen with romantic styling and two buttons (Yes/No) with glow, hover, and responsive layout",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-2",
+      "summary": "Strict “No” button behavior: moves to random position on each click while always staying fully within viewport and always clickable across devices",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-3",
+      "summary": "Exactly 7 sequential top-center auto-dismissing popup messages triggered by “No” clicks, with correct styling and timing",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-4",
+      "summary": "“Yes” button gating: initially hidden/small and only fully revealed after 7 “No” clicks with smooth fade-in and glow",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-5",
+      "summary": "On “Yes” click: play local audio file forever.mp3 (no autoplay; user-gesture triggered; handle play() errors silently; moderate volume)",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-6",
+      "summary": "On “Yes” click: show romantic uploaded photo (IMG_20221213_093702.jpg) in a centered animated modal with rounded corners, shadow, blur backdrop, and mobile-safe scaling",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-7",
+      "summary": "On “Yes” click: display the exact personalized apology message with romantic styling and smooth fade-in, plus floating decorative celebration effects that clean up DOM and avoid performance issues",
+      "reqIds": [],
+      "status": "pending"
+    }
+  ],
+  "gameProjectType": "none",
+  "projectName": "Valentine-themed interactive apology site with evasive No button, gated Yes flow, music, photo modal, apology letter, and celebration effects",
+  "clarification_mode": "instant",
+  "clarification_rounds": 0
+}

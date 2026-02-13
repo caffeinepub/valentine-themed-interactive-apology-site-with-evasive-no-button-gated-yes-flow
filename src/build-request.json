@@ -1,0 +1,244 @@
+{
+  "kind": "build_request",
+  "title": "Valentine-themed interactive apology site with evasive No button, gated Yes flow, music, photo modal, apology letter, and celebration effects",
+  "priority": "normal",
+  "requirements": [
+    {
+      "id": "REQ-1",
+      "text": "Create a single-page Valentine-themed landing experience with a soft, dreamy, Disney-fairytale-inspired (but clean/elegant) visual style using blush pink/soft red/peach gradients, warm glow highlights, subtle white accents, rounded elegant typography, and an animated background (soft animated gradient and/or subtle floating light particles). Ensure the styling is consistent across all screens and responsive without harsh colors, dark theme, or heavy fonts.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "Build a fully working, emotionally powerful, Valentine-themed interactive apology website from Akash to Fili.",
+          "Soft, dreamy, Valentine romantic, slightly Disney-fairytale inspired.",
+          "Color palette: • Blush pink • Soft red • Peach gradients • Warm glowing highlights • Subtle white accents",
+          "Background: Soft animated gradient OR subtle floating light particles.",
+          "Use elegant, rounded typography."
+        ]
+      },
+      "acceptanceCriteria": [
+        "Landing page uses a cohesive palette (blush pink/soft red/peach) with soft glow highlights and subtle accents",
+        "Background has a gentle animated effect (gradient and/or particles) without distracting or harsh motion",
+        "Typography is rounded/elegant and readable on mobile/tablet/desktop",
+        "No dark theme styling is introduced anywhere"
+      ]
+    },
+    {
+      "id": "REQ-2",
+      "text": "Implement the landing screen with the centered heading text exactly: “Fili, will you be my Valentine? 💖” and two rounded romantic buttons labeled exactly: “Yes 💕” and “No 😢”. Add soft glow, smooth hover animation, rounded corners, and slight scale effect on hover for both buttons.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "Centered heading: “Fili, will you be my Valentine? 💖”",
+          "Two rounded romantic buttons: • Yes 💕 • No 😢",
+          "Buttons must: • Have soft glow • Smooth hover animation • Rounded corners • Slight scale effect on hover"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Heading and button labels match exactly (including emojis)",
+        "Buttons have visible glow and animate smoothly on hover/tap (scale + transition)",
+        "Layout is centered and remains visually balanced across screen sizes"
+      ]
+    },
+    {
+      "id": "REQ-3",
+      "text": "Implement strict “No 😢” button behavior: it starts visible and on every click moves to a random position while ALWAYS remaining fully inside the viewport and ALWAYS clickable (never partially off-screen, never unreachable) across desktop/mobile/tablet. Compute the random position using the provided formula with button dimensions and a configurable margin: maxX = window.innerWidth - buttonWidth - margin; maxY = window.innerHeight - buttonHeight - margin; random X/Y in [0,maxX] and [0,maxY]. Update positioning correctly on viewport resize/orientation changes to prevent overflow bugs.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "🚨 NO BUTTON BEHAVIOR (VERY STRICT)",
+          "The “No” button must: • Start visible • Move to a random position on every click • NEVER leave the visible screen • NEVER become unreachable • NEVER render partially outside the viewport • ALWAYS remain clickable",
+          "Calculate new position using: maxX = window.innerWidth - buttonWidth - margin maxY = window.innerHeight - buttonHeight - margin Random position must be between 0 and maxX / maxY. This must work on: • Desktop • Mobile • Tablets No overflow bugs allowed."
+        ]
+      },
+      "acceptanceCriteria": [
+        "On each click (until the 7th), the No button relocates to a new random position",
+        "The No button is always fully visible within the viewport bounds (no clipping)",
+        "The No button remains clickable at all times and cannot be moved outside the visible screen on any tested viewport size",
+        "Position calculations use actual rendered button dimensions and the maxX/maxY formula with margin"
+      ]
+    },
+    {
+      "id": "REQ-4",
+      "text": "Show exactly 7 sequential popup messages triggered by No button clicks. Each popup must appear top-center, with rounded corners, soft pink background, soft shadow, and auto-dismiss after 1.5 seconds. Popups must not stack permanently. Use this exact sequence (one per click): 1) “Are you sure? 🥺” 2) “Really sure? 💔” 3) “Please don’t say no 😢” 4) “I’ll bring chocolates 🍫” 5) “I’ll send teddy hugs 🧸” 6) “Cats and butterflies for you 🐱🦋” 7) “Okay fine… last chance 💖”.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "💬 EXACTLY 7 NO BUTTON POPUPS",
+          "Popups must: • Appear top-center • Rounded • Soft pink background • Soft shadow • Auto disappear after 1.5 seconds • Not stack permanently",
+          "Popup text sequence: “Are you sure? 🥺” “Really sure? 💔” “Please don’t say no 😢” “I’ll bring chocolates 🍫” “I’ll send teddy hugs 🧸” “Cats and butterflies for you 🐱🦋” “Okay fine… last chance 💖”"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Exactly 7 messages are shown in order across successive No clicks",
+        "Each popup appears at the top-center and auto-dismisses after ~1500ms",
+        "At most one popup is visible at a time (no permanent stacking)",
+        "Popup styling matches: rounded, soft pink, soft shadow"
+      ]
+    },
+    {
+      "id": "REQ-5",
+      "text": "After the 7th No click: stop moving the No button. Implement “Yes 💕” button gating: it must be initially hidden or visually small, and only become fully visible after the 7th No click with a smooth fade-in animation and slight glow effect.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "After the 7th click: • Stop moving the No button • Reveal the Yes button if hidden",
+          "💖 YES BUTTON BEHAVIOR • Initially hidden OR visually small • Only fully visible after 7 No clicks • Smooth fade-in animation • Slight glow effect"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Before 7 No clicks, the Yes button is not fully visible (hidden or clearly minimized)",
+        "On the 7th No click, the Yes button transitions to fully visible via a smooth fade-in",
+        "After the 7th No click, the No button no longer changes position"
+      ]
+    },
+    {
+      "id": "REQ-6",
+      "text": "On “Yes 💕” click, start playing a local audio file named forever.mp3. Audio must NOT autoplay on page load and must ONLY start after the Yes click user gesture. Set volume to a moderate level (not maximum). If play() fails due to autoplay policy or other errors, handle the error silently (no user-visible error state; no console noise). Music should continue playing in the background after starting.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "🎵 MUSIC INTEGRATION (VERY IMPORTANT)",
+          "A local audio file will be uploaded named: forever.mp3",
+          "• Audio must NOT autoplay on page load • Audio must ONLY start playing after Fili clicks Yes • Must comply with browser autoplay policy • Use user interaction to trigger play() • If autoplay fails, handle error silently • Music should continue playing in background • Do not loop aggressively unless specified • Volume moderate (not max)"
+        ]
+      },
+      "acceptanceCriteria": [
+        "No audio plays before any user interaction",
+        "Clicking Yes triggers audio playback attempt via a user gesture",
+        "Audio volume is set below 1.0 (moderate)",
+        "If playback fails, the UI continues without disruption and without console errors"
+      ]
+    },
+    {
+      "id": "REQ-7",
+      "text": "On “Yes 💕” click, automatically open a centered romantic photo modal using the uploaded image file IMG_20221213_093702.jpg. The modal must have rounded corners, soft shadow, a slight scale-in animation, a soft blurred backdrop, smooth transitions, and be mobile-safe. The image must scale proportionally (no stretching), never overflow the viewport, and remain fully viewable on small screens.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-1",
+          "msg-3"
+        ],
+        "quotes": [
+          "A romantic photo will be uploaded.",
+          "• Display the uploaded image in a centered modal",
+          "Modal must: Have rounded corners Soft shadow Slight scale-in animation Soft background blur behind it Smooth transition",
+          "Must work on mobile • Image must scale proportionally • No overflow • No stretching",
+          "User: yes"
+        ]
+      },
+      "acceptanceCriteria": [
+        "After clicking Yes, the modal opens automatically with a smooth scale-in + fade transition",
+        "Backdrop behind the modal is blurred/dimmed softly",
+        "The image remains proportional and fully contained within the viewport (no overflow) on mobile/tablet/desktop",
+        "Modal container has rounded corners and soft shadow"
+      ]
+    },
+    {
+      "id": "REQ-8",
+      "text": "On “Yes 💕” click, display the following apology message text exactly (including punctuation and emoji), styled beautifully with soft romantic typography, centered layout, high readability, and a smooth fade-in:\n\nFili…\n\nI’m truly sorry.\nSorry for being rude, for raising my voice, for the harsh words I used.\nI’m sorry for every single thing that hurt you.\nI’m honestly ashamed of my behavior, and you didn’t deserve any of it.\n\nBut please believe me when I say this —\nthe time I spent with you has been one of the most beautiful chapters of my life.\nEvery moment with you meant more to me than I could ever express.\n\nYou are, without a doubt, one of the most beautiful girls in this world —\nnot just by looks, but by heart, by soul,\nby the way you make everything brighter. ✨\n\nPlease don’t ever blame yourself.\nNone of this was your fault.\nIf there was a mistake, it was mine.\n\nWith love,\nAkash 🤍",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "💌 FINAL APOLOGY MESSAGE (PERSONALIZED)\n\nDisplay this message exactly, styled beautifully:\n\nFili…\n\nI’m truly sorry.\nSorry for being rude, for raising my voice, for the harsh words I used.\nI’m sorry for every single thing that hurt you.\nI’m honestly ashamed of my behavior, and you didn’t deserve any of it.\n\nBut please believe me when I say this —\nthe time I spent with you has been one of the most beautiful chapters of my life.\nEvery moment with you meant more to me than I could ever express.\n\nYou are, without a doubt, one of the most beautiful girls in this world —\nnot just by looks, but by heart, by soul,\nby the way you make everything brighter. ✨\n\nPlease don’t ever blame yourself.\nNone of this was your fault.\nIf there was a mistake, it was mine.\n\nWith love,\nAkash 🤍",
+          "The text must: • Fade in smoothly • Be centered • Be readable • Have soft romantic styling"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Message text matches exactly, including line breaks, punctuation, and emojis",
+        "Message is centered and readable on small screens (appropriate max-width and responsive font sizing)",
+        "Message fades in smoothly after clicking Yes"
+      ]
+    },
+    {
+      "id": "REQ-9",
+      "text": "After “Yes 💕” click, trigger decorative celebration effects: floating 💖 hearts, 🦋 butterflies, 🐱 cats, 🍫 chocolates, 🧸 teddy bears, ✨ sparkles, and 🌹 roses. Decorations must spawn gradually (not all at once), float upward, fade out smoothly, and be removed from the DOM after the animation to avoid memory leaks and performance degradation.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "✨ DECORATIVE CELEBRATION EFFECT",
+          "After Yes click: Trigger floating decorations: • 💖 Hearts • 🦋 Butterflies • 🐱 Cats • 🍫 Chocolates • 🧸 Teddy bears • ✨ Sparkles • 🌹 Roses",
+          "Rules: • Spawn gradually (not all at once) • Float upward • Fade out smoothly • Automatically remove from DOM after animation • No memory leaks • No performance lag"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Multiple decoration types (all listed) appear after Yes click",
+        "Elements spawn over time rather than simultaneously",
+        "Each element animates upward and fades out",
+        "Elements are removed from the DOM after their animation completes (no unbounded DOM growth)",
+        "Animation remains smooth on typical mobile devices"
+      ]
+    },
+    {
+      "id": "REQ-10",
+      "text": "Ensure production-ready responsiveness and quality: no unwanted scrollbars (unless absolutely necessary), buttons remain visible, the No button logic remains safe within viewport constraints, proper z-index layering for popups/modal/decorations, and no console errors. Avoid duplicate event listeners, infinite loops, unused variables, and memory leaks. Include clear code organization and commented sections for major UI states/animations.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "📱 RESPONSIVE REQUIREMENTS Must work perfectly on: • Mobile phones • Tablets • Desktop No scrollbars unless absolutely necessary. Buttons must always stay visible. Text must remain readable on small screens.",
+          "🧠 CODE QUALITY REQUIREMENTS • Clean, readable structure • Commented sections • No unused variables • No console errors • No duplicate event listeners • Proper z-index layering • Proper event handling • No infinite loops • No memory leaks",
+          "🧪 FINAL TEST CHECKLIST ..."
+        ]
+      },
+      "acceptanceCriteria": [
+        "App is usable on mobile/tablet/desktop with no layout-breaking overflow",
+        "No console errors during typical interactions (No clicks, Yes click, modal open/close, decorations running)",
+        "Popups, modal, and decorations layer correctly (no visual fighting)",
+        "No button is always visible and reachable within the viewport until the 7th click"
+      ]
+    }
+  ],
+  "constraints": [
+    "Frontend must use React + TypeScript with Tailwind CSS and compose existing UI components without modifying any files under frontend/src/components/ui (read-only).",
+    "Do not edit immutable paths listed by the platform (e.g., frontend/src/main.tsx and identity/actor hooks). Compose around them instead.",
+    "Backend is single-actor Motoko; only add backend changes if absolutely necessary for this purely front-end interactive experience.",
+    "All user-facing text must be in English."
+  ],
+  "nonGoals": [
+    "Implementing user accounts, Internet Identity sign-in, or any authentication flow",
+    "Persisting state on the backend or storing user responses in a database",
+    "Integrating third-party services/APIs (analytics, social logins, maps, external audio/image hosting)",
+    "Adding real-time features (WebSockets/chat)"
+  ],
+  "imageRequirements": {
+    "required": [],
+    "edits": []
+  },
+  "userProfileUpdate": {
+    "goalsToAdd": [],
+    "goalsToRemove": [],
+    "preferencesToAdd": [],
+    "preferencesToRemove": [],
+    "miscToAdd": [],
+    "miscToRemove": [],
+    "fieldsToSet": {},
+    "fieldsToDelete": []
+  }
+}

@@ -1,0 +1,101 @@
+{
+  "kind": "spec_vs_diff_report",
+  "version": "1.0",
+  "generatedAt": "2026-02-13T18:37:24.300Z",
+  "summary": "Most of the requested Valentine single-page experience is implemented (animated romantic background, exact heading/button labels, evasive No button with popups, gated Yes reveal, audio on Yes click, photo modal, apology letter, and a decorations layer). However, several requirements are either not implemented strictly (exact apology text, strict No-button positioning formula/safety) or appear flawed (decorations spawning/cleanup). There are also unrequested additions (backend actor stub, dark theme styles, and authentication-related hooks/providers).",
+  "missing_requirements": [
+    {
+      "id": "REQ-1",
+      "requirement": "No dark theme styling is introduced anywhere.",
+      "reason": "A separate CSS file includes a full \".dark\" theme variable set, which conflicts with the requirement to avoid introducing dark theme styling anywhere.",
+      "evidence": [
+        "frontend/index.css"
+      ]
+    },
+    {
+      "id": "REQ-3",
+      "requirement": "Compute No button random position using the provided maxX/maxY formula with random X/Y in [0,maxX]/[0,maxY], and ALWAYS keep it fully inside the viewport and clickable across devices.",
+      "reason": "The implementation uses `newX = Math.max(margin, Math.random() * maxX)` / `newY = Math.max(margin, Math.random() * maxY)` rather than sampling in [0,maxX]/[0,maxY]. This can also produce `newX = margin` even when `margin > maxX` on small viewports (not clamped with Math.min), risking overflow and violating the strict positioning requirement.",
+      "evidence": [
+        "frontend/src/hooks/useEvasiveNoButton.ts"
+      ]
+    },
+    {
+      "id": "REQ-8",
+      "requirement": "Display the apology message text exactly (including punctuation, line breaks, and emojis).",
+      "reason": "The letter uses straight apostrophes (e.g., \"I'm\", \"didn't\") instead of the curly apostrophes in the required text (\"I’m\", \"didn’t\"), so it is not an exact match.",
+      "evidence": [
+        "frontend/src/components/ApologyLetter.tsx"
+      ]
+    },
+    {
+      "id": "REQ-9",
+      "requirement": "Decorations must spawn after “Yes 💕” click, spawn gradually, float upward, fade out, and be removed from the DOM after animation to avoid memory leaks/performance degradation.",
+      "reason": "The spawner hook starts an interval immediately on mount with no gating based on a Yes-click signal, so it is not shown to start only after Yes. Also, the decorations state array grows without bounds (`setDecorations(prev => [...prev, newDecoration])`) and is never pruned, which risks memory/performance issues. Additionally, the rendering effect iterates over the entire `decorations` list on every update and creates DOM elements for each item, which can repeatedly append duplicates and cause unbounded DOM growth despite per-element timeouts.",
+      "evidence": [
+        "frontend/src/hooks/useCelebrationSpawner.ts",
+        "frontend/src/components/CelebrationDecorationsLayer.tsx"
+      ]
+    },
+    {
+      "id": "REQ-10",
+      "requirement": "Production-ready quality: avoid memory leaks/unbounded DOM growth; ensure smooth performance and no overflow issues.",
+      "reason": "The celebration system appears to have unbounded state growth and likely repeated DOM appends on each decorations update (see REQ-9 evidence), which conflicts with avoiding memory leaks/performance degradation. The No-button positioning also has a potential small-viewport overflow risk (see REQ-3 evidence).",
+      "evidence": [
+        "frontend/src/hooks/useCelebrationSpawner.ts",
+        "frontend/src/components/CelebrationDecorationsLayer.tsx",
+        "frontend/src/hooks/useEvasiveNoButton.ts"
+      ]
+    }
+  ],
+  "hallucinated_features": [
+    {
+      "description": "Added backend Motoko actor stub despite the experience being purely front-end and backend changes requested only if absolutely necessary.",
+      "reason": "A new `backend/main.mo` with `actor {}` is added but no BuildRequest requirement needs backend functionality.",
+      "evidence": [
+        "backend/main.mo"
+      ]
+    },
+    {
+      "description": "Dark theme CSS variables and .dark selector support.",
+      "reason": "The BuildRequest explicitly requires no dark theme styling to be introduced, but a dark theme block is present.",
+      "evidence": [
+        "frontend/index.css"
+      ]
+    },
+    {
+      "description": "Internet Identity / authentication-related hooks and actor wiring (React Query + InternetIdentityProvider/useActor/useInternetIdentity).",
+      "reason": "Non-goals explicitly exclude implementing authentication flows; the diff adds/uses identity and actor hooks/providers even though the Valentine experience requirements do not need them.",
+      "evidence": [
+        "frontend/src/hooks/useActor.ts",
+        "frontend/src/hooks/useInternetIdentity.ts",
+        "frontend/src/main.tsx"
+      ]
+    }
+  ],
+  "confidence": 0.72,
+  "changed_files": [
+    "all_files_summary.json",
+    "backend/main.mo",
+    "frontend-file-summaries.txt",
+    "frontend/index.css",
+    "frontend/index.html",
+    "frontend/src/App.tsx",
+    "frontend/src/components/AnimatedDreamyBackground.tsx",
+    "frontend/src/components/ApologyLetter.tsx",
+    "frontend/src/components/CelebrationDecorationsLayer.tsx",
+    "frontend/src/components/RomanticPhotoModal.tsx",
+    "frontend/src/components/TopCenterPopup.tsx",
+    "frontend/src/components/ValentineApologyExperience.tsx",
+    "frontend/src/hooks/useActor.ts",
+    "frontend/src/hooks/useCelebrationSpawner.ts",
+    "frontend/src/hooks/useEvasiveNoButton.ts",
+    "frontend/src/hooks/useInternetIdentity.ts",
+    "frontend/src/hooks/useNoClickPopups.ts",
+    "frontend/src/hooks/useYesClickAudio.ts",
+    "frontend/src/index.css",
+    "frontend/src/main.tsx",
+    "frontend/tailwind.config.js",
+    "project_state.json"
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "frontend/src/index.css": "Global styles with Valentine-themed OKLCH color palette (blush pink, soft red, peach), romantic design tokens, animated gradient background, floating particles, glow effects, and all animation keyframes for the interactive experience.",
+  "frontend/tailwind.config.js": "Tailwind configuration extended with Valentine romantic color tokens, custom border radii, romantic shadow utilities, and elegant rounded font stack (Quicksand, Nunito, Poppins).",
+  "frontend/src/App.tsx": "Root application component rendering the animated dreamy background and main Valentine apology experience in a full-viewport container.",
+  "frontend/src/components/AnimatedDreamyBackground.tsx": "Animated background component with soft gradient animation and subtle floating light particles for a romantic Disney-fairytale atmosphere.",
+  "frontend/src/components/ValentineApologyExperience.tsx": "Main orchestrator component managing the interactive flow: landing screen with Yes/No buttons, evasive No button logic, popup sequence, Yes reveal after 7 clicks, audio playback, photo modal, apology letter, and celebration decorations.",
+  "frontend/src/components/TopCenterPopup.tsx": "Top-center popup toast component displaying romantic messages during No button clicks with soft pink styling, rounded corners, and 1500ms auto-dismiss animation.",
+  "frontend/src/components/RomanticPhotoModal.tsx": "Photo modal component displaying the uploaded couple image with blurred backdrop, rounded corners, soft shadow, smooth scale-in animation, and mobile-safe proportional scaling.",
+  "frontend/src/components/ApologyLetter.tsx": "Apology letter component rendering the personalized romantic message from Akash to Fili with centered layout, responsive typography, and smooth fade-in animation.",
+  "frontend/src/components/CelebrationDecorationsLayer.tsx": "Celebration decorations rendering layer that spawns floating emoji elements (hearts, butterflies, cats, chocolates, teddy bears, sparkles, roses) with upward animation and automatic DOM cleanup.",
+  "frontend/src/hooks/useEvasiveNoButton.ts": "Hook managing evasive No button positioning using viewport-bounded random calculations (maxX/maxY formula) with resize handling to ensure the button always remains fully visible and clickable.",
+  "frontend/src/hooks/useNoClickPopups.ts": "Hook managing the exact sequence of 7 popup messages with 1500ms auto-dismiss timing and non-stacking behavior (only one popup visible at a time).",
+  "frontend/src/hooks/useYesClickAudio.ts": "Hook managing audio playback of forever.mp3 triggered only by Yes button user gesture with moderate volume and silent error handling for autoplay policy compliance.",
+  "frontend/src/hooks/useCelebrationSpawner.ts": "Hook spawning celebration decoration elements gradually over time with randomized properties and proper cleanup to prevent memory leaks and performance degradation."
+}

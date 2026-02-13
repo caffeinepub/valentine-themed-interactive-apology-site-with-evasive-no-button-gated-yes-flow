@@ -1,0 +1,275 @@
+{
+  "kind": "implementation_plan",
+  "version": "1.0",
+  "title": "Valentine-themed interactive apology single-page experience (React + TS + Tailwind)",
+  "requirements": [
+    {
+      "id": "REQ-1",
+      "summary": "Create a cohesive Valentine-themed dreamy visual style with soft animated background and responsive elegant typography across the single-page experience.",
+      "acceptanceCriteria": [
+        "Landing page uses a cohesive palette (blush pink/soft red/peach) with soft glow highlights and subtle accents",
+        "Background has a gentle animated effect (gradient and/or particles) without distracting or harsh motion",
+        "Typography is rounded/elegant and readable on mobile/tablet/desktop",
+        "No dark theme styling is introduced anywhere"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/index.css",
+          "operation": "create",
+          "description": "Add Tailwind base layers plus global romantic theme tokens (light-only), rounded/elegant font stack, animated dreamy gradient background keyframes, subtle glow utilities, and global overflow handling to avoid unwanted scrollbars."
+        },
+        {
+          "path": "frontend/src/components/AnimatedDreamyBackground.tsx",
+          "operation": "create",
+          "description": "Implement a reusable animated background layer (soft animated gradient and optional subtle floating light particles) sized to viewport and safe for performance/responsiveness."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "create",
+          "description": "Wire the single-page layout wrapper that applies the consistent Valentine theme and renders the main interactive experience."
+        }
+      ]
+    },
+    {
+      "id": "REQ-2",
+      "summary": "Implement the centered landing heading text and the two romantic buttons with glow and smooth hover/tap animations.",
+      "acceptanceCriteria": [
+        "Heading and button labels match exactly (including emojis)",
+        "Buttons have visible glow and animate smoothly on hover/tap (scale + transition)",
+        "Layout is centered and remains visually balanced across screen sizes"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/ValentineApologyExperience.tsx",
+          "operation": "create",
+          "description": "Create the main single-page UI with centered heading text exactly “Fili, will you be my Valentine? 💖” and two rounded buttons labeled exactly “Yes 💕” and “No 😢”, including glow, rounded corners, and smooth scale/transition hover/tap styles."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Render the ValentineApologyExperience component as the primary single-page content and ensure centered layout remains responsive."
+        }
+      ]
+    },
+    {
+      "id": "REQ-3",
+      "summary": "Implement strict evasive “No 😢” button logic that relocates to safe random positions within the viewport using the specified maxX/maxY formula and handles resize/orientation changes.",
+      "acceptanceCriteria": [
+        "On each click (until the 7th), the No button relocates to a new random position",
+        "The No button is always fully visible within the viewport bounds (no clipping)",
+        "The No button remains clickable at all times and cannot be moved outside the visible screen on any tested viewport size",
+        "Position calculations use actual rendered button dimensions and the maxX/maxY formula with margin"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/hooks/useEvasiveNoButton.ts",
+          "operation": "create",
+          "description": "Implement a hook that measures the rendered No button dimensions, computes safe random X/Y using maxX = window.innerWidth - buttonWidth - margin and maxY = window.innerHeight - buttonHeight - margin, applies positioning, and updates safely on resize/orientation changes without overflow bugs."
+        },
+        {
+          "path": "frontend/src/components/ValentineApologyExperience.tsx",
+          "operation": "modify",
+          "description": "Use the useEvasiveNoButton hook to position and relocate the No 😢 button on each click until the 7th click, ensuring it always remains fully inside the viewport and clickable."
+        }
+      ]
+    },
+    {
+      "id": "REQ-4",
+      "summary": "Show exactly 7 sequential top-center popups for successive No clicks with auto-dismiss after 1.5 seconds and non-stacking behavior.",
+      "acceptanceCriteria": [
+        "Exactly 7 messages are shown in order across successive No clicks",
+        "Each popup appears at the top-center and auto-dismisses after ~1500ms",
+        "At most one popup is visible at a time (no permanent stacking)",
+        "Popup styling matches: rounded, soft pink, soft shadow"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/TopCenterPopup.tsx",
+          "operation": "create",
+          "description": "Add a top-center popup/toast UI component styled with rounded corners, soft pink background, and soft shadow, supporting smooth enter/exit transitions."
+        },
+        {
+          "path": "frontend/src/hooks/useNoClickPopups.ts",
+          "operation": "create",
+          "description": "Implement a hook managing the exact 7-message sequence and 1500ms auto-dismiss timing, ensuring only one popup is visible at a time and no stacking persists."
+        },
+        {
+          "path": "frontend/src/components/ValentineApologyExperience.tsx",
+          "operation": "modify",
+          "description": "Integrate useNoClickPopups so each No 😢 click shows the next exact message at top-center and auto-dismisses after 1.5s."
+        }
+      ]
+    },
+    {
+      "id": "REQ-5",
+      "summary": "After the 7th No click, stop moving the No button and reveal the Yes button with smooth fade-in and slight glow.",
+      "acceptanceCriteria": [
+        "Before 7 No clicks, the Yes button is not fully visible (hidden or clearly minimized)",
+        "On the 7th No click, the Yes button transitions to fully visible via a smooth fade-in",
+        "After the 7th No click, the No button no longer changes position"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/ValentineApologyExperience.tsx",
+          "operation": "modify",
+          "description": "Implement state gating so Yes 💕 starts hidden/minimized and becomes fully visible with fade-in + slight glow exactly after the 7th No click; ensure No button repositioning is disabled after the 7th click."
+        },
+        {
+          "path": "frontend/src/index.css",
+          "operation": "modify",
+          "description": "Add lightweight keyframes/utility classes for the Yes reveal fade-in and subtle glow effects, ensuring consistent styling and no dark theme."
+        }
+      ]
+    },
+    {
+      "id": "REQ-6",
+      "summary": "On Yes click, play local forever.mp3 only after the user gesture with moderate volume and silent failure handling.",
+      "acceptanceCriteria": [
+        "No audio plays before any user interaction",
+        "Clicking Yes triggers audio playback attempt via a user gesture",
+        "Audio volume is set below 1.0 (moderate)",
+        "If playback fails, the UI continues without disruption and without console errors"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/public/assets/forever.mp3",
+          "operation": "create",
+          "description": "Add the provided local audio asset forever.mp3 to the public assets so it can be loaded by the client at runtime."
+        },
+        {
+          "path": "frontend/src/hooks/useYesClickAudio.ts",
+          "operation": "create",
+          "description": "Implement an audio hook that initializes audio lazily, sets moderate volume (< 1.0), starts playback only on Yes click user gesture, and handles play() failures silently (no console noise, no user-visible errors)."
+        },
+        {
+          "path": "frontend/src/components/ValentineApologyExperience.tsx",
+          "operation": "modify",
+          "description": "Wire the Yes 💕 click handler to trigger useYesClickAudio playback start (no autoplay on load) and keep music playing in the background after it starts."
+        }
+      ]
+    },
+    {
+      "id": "REQ-7",
+      "summary": "On Yes click, open a centered romantic photo modal showing IMG_20221213_093702.jpg with blurred backdrop, rounded corners, soft shadow, and mobile-safe proportional scaling.",
+      "acceptanceCriteria": [
+        "After clicking Yes, the modal opens automatically with a smooth scale-in + fade transition",
+        "Backdrop behind the modal is blurred/dimmed softly",
+        "The image remains proportional and fully contained within the viewport (no overflow) on mobile/tablet/desktop",
+        "Modal container has rounded corners and soft shadow"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/public/assets/IMG_20221213_093702.jpg",
+          "operation": "create",
+          "description": "Add the provided image asset IMG_20221213_093702.jpg to public assets for modal display."
+        },
+        {
+          "path": "frontend/src/components/RomanticPhotoModal.tsx",
+          "operation": "create",
+          "description": "Implement a modal component with soft blurred/dimmed backdrop, rounded container, soft shadow, smooth scale-in transition, mobile-safe sizing, and proportional image rendering (no stretching/overflow)."
+        },
+        {
+          "path": "frontend/src/components/ValentineApologyExperience.tsx",
+          "operation": "modify",
+          "description": "Open the RomanticPhotoModal automatically on Yes 💕 click and ensure it is centered and accessible on small screens."
+        }
+      ]
+    },
+    {
+      "id": "REQ-8",
+      "summary": "After Yes click, render the apology letter text exactly with romantic typography, centered layout, high readability, and smooth fade-in.",
+      "acceptanceCriteria": [
+        "Message text matches exactly, including line breaks, punctuation, and emojis",
+        "Message is centered and readable on small screens (appropriate max-width and responsive font sizing)",
+        "Message fades in smoothly after clicking Yes"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/ApologyLetter.tsx",
+          "operation": "create",
+          "description": "Create a dedicated component that renders the apology message text exactly as provided (including line breaks/emojis), with centered layout, responsive max-width, romantic typography, and a smooth fade-in animation after Yes."
+        },
+        {
+          "path": "frontend/src/components/ValentineApologyExperience.tsx",
+          "operation": "modify",
+          "description": "Render the ApologyLetter component only after the Yes 💕 click flow begins, ensuring timing aligns with the required smooth fade-in."
+        },
+        {
+          "path": "frontend/src/index.css",
+          "operation": "modify",
+          "description": "Add fade-in animation styles and readable responsive typography defaults used by the apology letter (light theme only)."
+        }
+      ]
+    },
+    {
+      "id": "REQ-9",
+      "summary": "Trigger gradual floating celebration decorations (all listed emoji types) after Yes click, animating upward with fade-out and DOM cleanup to avoid leaks/performance issues.",
+      "acceptanceCriteria": [
+        "Multiple decoration types (all listed) appear after Yes click",
+        "Elements spawn over time rather than simultaneously",
+        "Each element animates upward and fades out",
+        "Elements are removed from the DOM after their animation completes (no unbounded DOM growth)",
+        "Animation remains smooth on typical mobile devices"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/CelebrationDecorationsLayer.tsx",
+          "operation": "create",
+          "description": "Add a decorations rendering layer that displays floating emoji items (💖 🦋 🐱 🍫 🧸 ✨ 🌹) with upward movement and fade-out animations, plus reliable cleanup after each animation completes."
+        },
+        {
+          "path": "frontend/src/hooks/useCelebrationSpawner.ts",
+          "operation": "create",
+          "description": "Implement a hook that spawns decoration items gradually over time (not all at once), assigns randomized trajectories/positions safely, and guarantees timers/listeners are cleaned up to prevent memory leaks."
+        },
+        {
+          "path": "frontend/src/components/ValentineApologyExperience.tsx",
+          "operation": "modify",
+          "description": "Start celebration spawning on Yes 💕 click and render the CelebrationDecorationsLayer with correct z-index so decorations don’t break modal/popup interactions."
+        },
+        {
+          "path": "frontend/src/index.css",
+          "operation": "modify",
+          "description": "Add keyframes for floating-up + fade-out decoration animations and ensure they are performance-friendly (transform/opacity) and removed cleanly."
+        }
+      ]
+    },
+    {
+      "id": "REQ-10",
+      "summary": "Ensure production-ready responsiveness, layering, and code quality: no unwanted scrollbars, safe No button logic, correct z-indexing, no console errors, and clean organization with comments.",
+      "acceptanceCriteria": [
+        "App is usable on mobile/tablet/desktop with no layout-breaking overflow",
+        "No console errors during typical interactions (No clicks, Yes click, modal open/close, decorations running)",
+        "Popups, modal, and decorations layer correctly (no visual fighting)",
+        "No button is always visible and reachable within the viewport until the 7th click"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/ValentineApologyExperience.tsx",
+          "operation": "modify",
+          "description": "Audit and adjust layout constraints (overflow handling, responsive sizing), z-index layering (popup/modal/decorations), and event/timer lifecycles to avoid duplicate listeners, infinite loops, and leaks; add commented sections for major UI states/animations."
+        },
+        {
+          "path": "frontend/src/hooks/useEvasiveNoButton.ts",
+          "operation": "modify",
+          "description": "Harden resize/orientation handling and positioning guards to prevent overflow/scrollbars and ensure No button remains reachable across device sizes until the 7th click."
+        },
+        {
+          "path": "frontend/src/hooks/useNoClickPopups.ts",
+          "operation": "modify",
+          "description": "Ensure popup timers are properly cleared on unmount/state transitions and that no lingering timeouts cause stacking or console errors."
+        },
+        {
+          "path": "frontend/src/hooks/useCelebrationSpawner.ts",
+          "operation": "modify",
+          "description": "Ensure all intervals/timeouts/animation cleanup paths are disposed correctly to prevent unbounded DOM growth or memory leaks and keep animations smooth on mobile."
+        },
+        {
+          "path": "frontend/src/hooks/useYesClickAudio.ts",
+          "operation": "modify",
+          "description": "Ensure audio play failures are caught and suppressed without console noise and that audio resources are not recreated repeatedly across re-renders."
+        }
+      ]
+    }
+  ]
+}
